@@ -1,0 +1,37 @@
+<nz-sider class="menu-sidebar w-[256px]" nzCollapsible nzWidth="256px"   nzBreakpoint="md" [(nzCollapsed)]="state"
+  [nzTrigger]="null">
+  <div class="sidebar-logo bg-white">
+    <a href="https://ng.ant.design/" target="_blank">
+      <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <h1 class="text-blue-700">Enlink</h1>
+    </a>
+  </div>
+  <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="state" [nzInlineIndent]="projectConstant.indent"   class="h-[100%]">
+    <ng-container *ngFor="let menu of menus">
+      <ng-container *ngTemplateOutlet="menubar; context: { menu: menu }"></ng-container>
+      <ng-template #menubar let-menu="menu">
+        <li  nz-submenu [nzOpen]="false"  [nzTitle]="menu.title" [nzIcon]="menu.icon" *ngIf="menu.children && menu.children.length>0" >
+
+          <ng-container *ngIf="menu.children && menu.children.length > 0">
+          <ul >
+            <ng-container *ngFor="let childMenu of menu.children">
+              <ng-container *ngTemplateOutlet="menubar; context: { menu: childMenu }">
+
+              </ng-container>
+            </ng-container>
+            
+          </ul>
+            
+           
+           
+          </ng-container>
+        </li>
+        <li nz-menu-item   nzMatchRouter *ngIf="!menu.children || menu.children.length<=0"  >
+          <span nz-icon [nzType]="menu.icon" nzTheme="outline" *ngIf="menu.icon" class="mr-2"></span>
+           <a [routerLink]="menu.routerlink">{{menu.title}}</a>
+        </li>
+      </ng-template>
+      <nz-divider nzType="vertical"></nz-divider>
+    </ng-container>
+  </ul>
+</nz-sider>
